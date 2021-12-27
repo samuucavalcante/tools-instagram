@@ -1,13 +1,12 @@
-<div align="center" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
 
-<p align="center" style="
-  background: -webkit-linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;font-size: 4rem" >Instagram Tools<p>
-<img align="center" src=".github/assets/insta-tools.png" alt="MarineGEO circle logo" style="height: 200px; width:200px;"/>
-</div>
+# <p align="center">`Instagram Tools`<p>
+<div align="center">
+    <img align="center" src=".github/assets/insta-tools.png" alt="MarineGEO circle logo" style="height: 200px; width:200px;"/>
+    </div>
+&nbsp;
+    
 
-> ### <span style="font-size: 1rem;">Instagram Tools Api written in NodeJs, on top of the [Nestjs](https://nestjs.com/) framework, integrated with a using Kafka microservice</span>
+> #### <span style="font-size: 1rem;">Instagram Tools Api written in NodeJs, on top of the [Nestjs](https://nestjs.com/) framework, integrated with a using Kafka microservice</span>
 
 &nbsp;
 
