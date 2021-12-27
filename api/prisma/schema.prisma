@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String            @id @default(uuid())
+  name              String
+  email             String            @unique
+  password          String
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @default(now())
+  instagramAccounts IntagramAccount[]
+}
+
+model IntagramAccount {
+  id        String    @id @default(uuid())
+  userId    String
+  username  String
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  User      User      @relation(fields: [userId], references: [id])
+  active    Boolean?  @default(false)
+  Hashtag   Hashtag[]
+}
+
+model Hashtag {
+  id               String            @id @default(uuid())
+  InstagramAccount IntagramAccount[]
+  hashtag          String            @unique
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @default(now())
+}
