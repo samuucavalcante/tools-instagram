@@ -1,3 +1,6 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;400;500;600;700&display=swap" rel="stylesheet">
 <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; font-family: JetBrains Mono; font-size: 3rem;">
 
 <p  style="
