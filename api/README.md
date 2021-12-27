@@ -1,13 +1,17 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;400;500;600;700&display=swap" rel="stylesheet">
-<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; font-family: JetBrains Mono; font-size: 3rem;">
+[inline link](https://www.jetbrains.com)
+[inline link with tooltip](https://www.jetbrains.com "JetBrains: Development Tools for Professionals and Teams")
+[reference link][1]
 
-<p  style="
+[1]: https://www.jetbrains.com
+
+
+<div align="center" style="display: flex; justify-content: center; align-items: center; flex-direction: column; font-family: JetBrains Mono; font-size: 3rem;">
+
+<p align="center" style="
   background: -webkit-linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;" >Instagram Tools<p>
-<img src=".github/assets/insta-tools.png" alt="MarineGEO circle logo" style="height: 200px; width:200px;"/>
+<img align="center" src=".github/assets/insta-tools.png" alt="MarineGEO circle logo" style="height: 200px; width:200px;"/>
 </div>
 
 > ### <span style="font-size: 1rem;">Instagram Tools Api written in NodeJs, on top of the [Nestjs](https://nestjs.com/) framework, integrated with a using Kafka microservice</span>
