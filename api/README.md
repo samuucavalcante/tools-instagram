@@ -1,10 +1,3 @@
-[inline link](https://www.jetbrains.com)
-[inline link with tooltip](https://www.jetbrains.com "JetBrains: Development Tools for Professionals and Teams")
-[reference link][1]
-
-[1]: https://www.jetbrains.com
-
-
 <div align="center" style="display: flex; justify-content: center; align-items: center; flex-direction: column; font-family: JetBrains Mono; font-size: 3rem;">
 
 <p align="center" style="
