@@ -13,10 +13,10 @@
 &nbsp;
 
 ## <p>Introduction<p>
-### We believe that a good way to have followers organically would be to promote a certain niche, using hashtags and phrases determined by the customer.
+#### We believe that a good way to have followers organically would be to promote a certain niche, using hashtags and phrases determined by the customer.
 
 
-### **Instagram Tools** is at first a public application. In addition to this functionality, this application aims to improve my knowledge.
+#### **Instagram Tools** is at first a public application. In addition to this functionality, this application aims to improve my knowledge.
 
 &nbsp;
 
@@ -28,5 +28,5 @@
 &nbsp;
 
 ## <p>Considerations</p>
-### This application this application initially runs locally at first, but the goal is to run it in the cloud
+#### This application this application initially runs locally at first, but the goal is to run it in the cloud
 
