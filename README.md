@@ -29,4 +29,17 @@
 
 ## <p>Considerations</p>
 #### This application this application initially runs locally at first, but the goal is to run it in the cloud
+&nbsp;
+
+
+> #### Note: The **Backend(api folder)** of the **Frontend(app folder)** has its **Documentation**
+&nbsp;
+
+
+<details>
+<ul>
+  <p><a href="">Backend</a> </p>
+  <p><a href="">Frontend</a> </p>
+</ul>
+</details>
 
