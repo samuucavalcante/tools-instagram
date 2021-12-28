@@ -56,10 +56,11 @@ export default function SignIn() {
                 <Form.Item name="remember" valuePropName="checked" noStyle>
                   <Checkbox>Remember me</Checkbox>
                 </Form.Item>
-
-                <a className="login-form-forgot" href="">
+                <Link href="/forgotpassword">
+                <a className="login-form-forgot" >
                   Forgot password
                 </a>
+                  </Link>
               </Form.Item>
 
               <Form.Item>
