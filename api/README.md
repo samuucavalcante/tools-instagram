@@ -1,7 +1,7 @@
 
 # <p align="center">`Instagram Tools`<p>
 <div align="center">
-    <img align="center" src=".github/assets/insta-tools.png" alt="MarineGEO circle logo" style="height: 200px; width:200px;"/>
+    <img align="center" src="../.github/assets/insta-tools.png" alt="MarineGEO circle logo" style="height: 200px; width:200px;"/>
     </div>
 &nbsp;
     
