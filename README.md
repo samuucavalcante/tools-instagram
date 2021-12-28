@@ -38,8 +38,8 @@
 
 <details>
 <ul>
-  <p><a href="">Backend</a> </p>
-  <p><a href="">Frontend</a> </p>
+  <p><a href="https://github.com/samuucavalcante/tools-instagram/tree/main/api">Backend</a> </p>
+  <p><a href="https://github.com/samuucavalcante/tools-instagram/tree/main/app">Frontend</a> </p>
 </ul>
 </details>
 
