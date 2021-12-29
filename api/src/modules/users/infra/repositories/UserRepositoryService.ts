@@ -32,6 +32,31 @@ export class UserRepositoryService implements IUserRepository {
       where: {
         email,
       },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        password: true,
+        createdAt: true,
+        updatedAt: true,
+        instagramAccounts: {
+          select: {
+            id: true,
+            username: true,
+            password: true,
+            active: true,
+            Hashtag: {
+              select: {
+                id: true,
+                hashtag: true,
+
+                createdAt: true,
+                updatedAt: true,
+              },
+            },
+          },
+        },
+      },
     });
   }
 
