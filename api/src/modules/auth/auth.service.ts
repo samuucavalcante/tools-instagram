@@ -76,6 +76,10 @@ export class AuthService {
   }
 
   async findUserById(id: string): Promise<User> {
-    return await this.authRepository.findById(id);
+    const user = await this.authRepository.findById(id);
+
+    delete user.password;
+
+    return user;
   }
 }
