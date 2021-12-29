@@ -14,27 +14,4 @@ export class InstagramaccountController {
     const userId = req.user.userId;
     return await this.instagramaccountService.create(userId, dto);
   }
-
-  // @Get()
-  // findAll() {
-  //   return this.instagramaccountService.findAll();
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.instagramaccountService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateInstagramaccountDto: UpdateInstagramaccountDto,
-  // ) {
-  //   return this.instagramaccountService.update(+id, updateInstagramaccountDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.instagramaccountService.remove(+id);
-  // }
 }
