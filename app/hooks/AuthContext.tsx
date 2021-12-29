@@ -66,9 +66,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setCookie(undefined, 'instagram-tools:token', access_token,{
       maxAge: 60 * 60 * 24 // 24 hours
     })
+
+    api.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+
     setUser(user)
 
-    router.push('/dasboard')
+    router.push('/dashboard')
   }
 
   return (
