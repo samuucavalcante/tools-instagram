@@ -9,18 +9,20 @@ import { AuthLoginDto } from './dto/create-auth.dto';
 import { BcriptService } from 'src/modules/users/providers/bcript.service';
 import { User } from '@prisma/client';
 import { RegisterUserDto } from './dto/register-user-dto';
-import { AuthRepository } from './infra/prisma/repositories/AuthRepository';
+import { UserRepositoryService } from '../users/infra/repositories/UserRepositoryService';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly bcriptService: BcriptService,
     private readonly jwtService: JwtService,
-    private readonly authRepository: AuthRepository,
+    private readonly userRepository: UserRepositoryService,
+    private readonly usersService: UsersService,
   ) {}
 
-  async login(authLoginDto: AuthLoginDto) {
-    const user = await this.validateUser(authLoginDto);
+  async login({ email, password }: AuthLoginDto) {
+    const user = await this.usersService.validateUserSignIn(email, password);
     delete user.password;
 
     const payload = {
@@ -32,33 +34,8 @@ export class AuthService {
     };
   }
 
-  async validateUser(authLoginDto: AuthLoginDto): Promise<User> {
-    const { email, password } = authLoginDto;
-
-    const user = await this.authRepository.findByEmail(email);
-
-    if (!user) {
-      throw new UnauthorizedException();
-    }
-
-    const validadePassword = await this.bcriptService.validatePassword(
-      password,
-      user.password,
-    );
-
-    if (!validadePassword) {
-      throw new UnauthorizedException();
-    }
-
-    return user;
-  }
-
-  async createUser({
-    email,
-    name,
-    password,
-  }: RegisterUserDto): Promise<Omit<User, 'password'>> {
-    const findByEmail = await this.authRepository.findByEmail(email);
+  async createUser({ email, name, password }: RegisterUserDto): Promise<User> {
+    const findByEmail = await this.userRepository.findUserByEmail(email);
 
     if (findByEmail) {
       throw new HttpException('Email already exists', 400);
@@ -66,17 +43,19 @@ export class AuthService {
 
     const hashpassoword = await this.bcriptService.hashPassword(password);
 
-    const user = await this.authRepository.create({
+    const user = await this.usersService.create({
       name,
       email,
       password: hashpassoword,
     });
 
+    delete user.password;
+
     return user;
   }
 
   async findUserById(id: string): Promise<User> {
-    const user = await this.authRepository.findById(id);
+    const user = await this.userRepository.findUserById(id);
 
     delete user.password;
 

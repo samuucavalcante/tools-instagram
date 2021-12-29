@@ -9,7 +9,8 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { BcriptService } from '../users/providers/bcript.service';
 import { PrismaService } from 'src/providers/prisma.service';
-import { AuthRepository } from './infra/prisma/repositories/AuthRepository';
+import { UserRepositoryService } from '../users/infra/repositories/UserRepositoryService';
+import { UsersService } from '../users/users.service';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { AuthRepository } from './infra/prisma/repositories/AuthRepository';
     JwtStrategy,
     BcriptService,
     PrismaService,
-    AuthRepository,
+    UserRepositoryService,
+    UsersService,
   ],
 })
 export class AuthModule {}
