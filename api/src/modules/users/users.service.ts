@@ -36,6 +36,9 @@ export class UsersService {
 
   async findOne(id: string) {
     const user = await this.userRepository.findById(id);
+    if (!user) {
+      throw new HttpException('User', 401);
+    }
     delete user.password;
 
     return user;

@@ -1,23 +1,20 @@
-import { Controller, Post, Body, Param } from '@nestjs/common';
+import { Controller, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { InstagramaccountService } from './instagramaccount.service';
 import { CreateInstagramAccountDto } from './dto/create-instagramaccount.dto';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('instagramaccount')
 export class InstagramaccountController {
   constructor(
     private readonly instagramaccountService: InstagramaccountService,
   ) {}
-
+  @UseGuards(JwtAuthGuard)
   @Post(':id')
   async create(
-    @Param('id') id: string,
-    @Body() createInstagramaccountDto: CreateInstagramAccountDto,
+    @Param('id') userId: string,
+    @Body() dto: CreateInstagramAccountDto,
   ) {
-    console.log(id, createInstagramaccountDto);
-    return await this.instagramaccountService.create(
-      id,
-      createInstagramaccountDto,
-    );
+    return await this.instagramaccountService.create(userId, dto);
   }
 
   // @Get()

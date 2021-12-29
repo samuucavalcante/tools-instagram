@@ -12,13 +12,13 @@ type DashboardLayoutTypes =  {
 }
 
 export function DashboardLayout({ id, title: Title, children }:DashboardLayoutTypes) {
-  const [key] = useState<Pick<DashboardLayoutTypes, "key">>(id)
+  const [key] = useState<Pick<DashboardLayoutTypes, "id">>(id)
   const [title] = useState<Pick<DashboardLayoutTypes, "title">>(Title)
 
   const { Header, Content, Sider, Footer } = Layout;
-  const { pathname, push } = useRouter();
+  const { push } = useRouter();
 
-  const page = useMemo((): Pick<DashboardLayoutTypes,"title"> => ({
+  const page = useMemo(() => ({
       Home: "/dashboard",
       Settings: "/dashboard/settings"
   }),[])

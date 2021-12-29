@@ -64,7 +64,6 @@ export class UserRepositoryService implements IUserRepository {
 
                 createdAt: true,
                 updatedAt: true,
-                _count: true,
               },
             },
           },
