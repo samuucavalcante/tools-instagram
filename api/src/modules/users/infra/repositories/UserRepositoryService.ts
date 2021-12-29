@@ -8,11 +8,7 @@ import { IUserRepository } from '../../repositories/IUserRepository';
 export class UserRepositoryService implements IUserRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create({
-    email,
-    name,
-    password,
-  }: CreateUserDto): Promise<Omit<User, 'password'>> {
+  async create({ email, name, password }: CreateUserDto): Promise<User> {
     const user = await this.prismaService.user.create({
       data: {
         password,
@@ -20,7 +16,7 @@ export class UserRepositoryService implements IUserRepository {
         name: name,
       },
       select: {
-        password: false,
+        password: true,
         id: true,
         name: true,
         email: true,
@@ -31,7 +27,7 @@ export class UserRepositoryService implements IUserRepository {
 
     return user;
   }
-  public async findByEmail(email: string): Promise<User> {
+  public async findUserByEmail(email: string): Promise<User> {
     return await this.prismaService.user.findUnique({
       where: {
         email,
@@ -39,7 +35,7 @@ export class UserRepositoryService implements IUserRepository {
     });
   }
 
-  public async findById(id: string): Promise<User> {
+  public async findUserById(id: string): Promise<User> {
     const user = await this.prismaService.user.findUnique({
       where: {
         id,
