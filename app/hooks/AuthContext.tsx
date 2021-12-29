@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import { api } from "../services/api";
-import { setCookie } from 'nookies';
+import { setCookie, parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 
 
@@ -11,7 +11,7 @@ type AuthContextTypes = {
   user: User | null;
 };
 
-type SignRequest = {
+export type SignRequest = {
   username: string;
   email: string;
   password: string;
@@ -22,7 +22,7 @@ type SignResponse = {
   access_token: string;
 };
 
-type User = {
+export type User = {
   id: string;
   name: string;
   email: string;
@@ -79,4 +79,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       {children}
     </AuthContext.Provider>
   );
+}
+
+export const useAuth = () => {
+  const { isAuthenticated,signIn, user } = useContext(AuthContext);
+
+
+  return {
+    isAuthenticated,
+    signIn,
+    user
+  }
+
 }
