@@ -39,7 +39,7 @@ export function DashboardLayout({ id, title: Title, children }:DashboardLayoutTy
          <Header className={styles.header} >
          <Typography.Title level={2}>{title}</Typography.Title>
          </Header>
-         <Content >
+         <Content className={styles.content} >
           {children}
            </Content>
            <Footer></Footer>
