@@ -1,10 +1,20 @@
 import { Button, Checkbox, Form, Input, Col, Row, Card, Modal } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import Link from 'next/link';
+import { GetServerSideProps } from 'next';
+import { parseCookies } from 'nookies';
+
+import { useAuth, SignRequest } from '../hooks/AuthContext';
 
 export default function SignIn() {
-  const onFinish = (data: any) => {
-    console.log(data);
+  const { signIn } = useAuth();
+
+  const onFinish = async ({ email, password, username }: SignRequest) => {
+    await signIn({
+      email,
+      password,
+      username
+    })
   };
   const onFinishFailed = () => {
     console.log('fail');
@@ -32,7 +42,7 @@ export default function SignIn() {
                 name="email"
                 rules={[
                   { required: true, message: "Please input your Email!" },
-                  {type: "email", message: "Email Invalid!", }
+                  { type: "email", message: "Email Invalid!", }
                 ]}
               >
                 <Input
@@ -57,15 +67,15 @@ export default function SignIn() {
                   <Checkbox>Remember me</Checkbox>
                 </Form.Item>
                 <Link href="/forgotpassword">
-                <a className="login-form-forgot" >
-                  Forgot password
+                  <a className="login-form-forgot" >
+                    Forgot password
                 </a>
-                  </Link>
+                </Link>
               </Form.Item>
 
               <Form.Item>
                 <Button
-                style={{ marginRight: 10 }}
+                  style={{ marginRight: 10 }}
                   type="primary"
                   htmlType="submit"
                   className="login-form-button"
