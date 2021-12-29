@@ -34,15 +34,28 @@ const AuthContext = createContext({} as AuthContextTypes);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const isAuthenticated = !!user;
-
   const router = useRouter();
+
+  useEffect(() => {
+    const { 'instagram-tools:token': token } = parseCookies()
+
+    if(token) {
+      api.get('token').then(response => {
+        console.log(response.data);
+        setUser(response.data)
+      }).catch(err => alert('deu erro'))
+    }
+
+  },[])
+
+
 
   async function signIn({ username, email, password }: SignRequest) {
     const { data } = await api.post<
       SignResponse,
       AxiosResponse<SignResponse>,
       SignRequest
-    >("sign", {
+    >("signin", {
       username,
       email,
       password
