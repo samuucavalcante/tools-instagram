@@ -1,7 +1,8 @@
 import { DashboardLayout } from '../../components/DashboardLayout';
 import { Typography, Space, Form, Input, Row, Col, Divider, Card, Tag, Button, Modal } from 'antd';
 import { PlusCircleOutlined } from "@ant-design/icons";
-
+import { GetServerSideProps } from 'next';
+import { parseCookies } from 'nookies';
 
 export default function Settings() {
   const onFinishFailed = () => { }
@@ -85,4 +86,21 @@ export default function Settings() {
       </Row>
     </DashboardLayout>
   );
+}
+
+export const getServerSideProps: GetServerSideProps =  async (ctx) => {
+  const { ['instagram-tools:token']: token } = parseCookies(ctx);
+
+  if(!token) {
+    return  {
+      redirect: {
+        destination: '/signin',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {}
+  }
 }

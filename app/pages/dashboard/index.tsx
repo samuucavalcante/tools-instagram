@@ -1,4 +1,6 @@
 import { DashboardLayout } from '../../components/DashboardLayout';
+import { GetServerSideProps } from 'next';
+import { parseCookies } from 'nookies';
 
 export default function Dashboard() {
 
@@ -7,4 +9,19 @@ export default function Dashboard() {
       DashBoard
     </DashboardLayout>
   );
+}
+export const getServerSideProps: GetServerSideProps =  async (ctx) => {
+  const { ['instagram-tools:token']: token } = parseCookies(ctx);
+
+  if(!token) {
+    return  {
+      redirect: {
+        destination: '/signin',
+        permanent: false
+      }
+    }
+  }
+  return {
+    props: {}
+  }
 }
