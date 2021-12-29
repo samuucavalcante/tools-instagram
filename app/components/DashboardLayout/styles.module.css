@@ -1,0 +1,12 @@
+.header {
+  background-color: whitesmoke;
+}
+.sider {
+  overflow: auto;
+  height: 100vh;
+  left: 0;
+}
+
+.siderMenuText{
+  color: white;
+}
