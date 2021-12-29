@@ -22,12 +22,21 @@ type SignResponse = {
   access_token: string;
 };
 
-export type User = {
+type InstagramAccounts = {
+  id: string;
+  username: string;
+  password: string;
+  active: boolean;
+  Hashtag: string[]
+}
+
+export type  User =  {
   id: string;
   name: string;
   email: string;
   createdAt: string;
   updatedAt: string;
+  instagramAccounts: InstagramAccounts[]
 }
 const AuthContext = createContext({} as AuthContextTypes);
 
