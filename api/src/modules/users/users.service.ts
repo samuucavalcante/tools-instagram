@@ -1,4 +1,8 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserRepositoryService } from './infra/repositories/UserRepositoryService';
 import { BcriptService } from './providers/bcript.service';
@@ -10,8 +14,8 @@ export class UsersService {
     private readonly userRepository: UserRepositoryService,
   ) {}
 
-  async create({ name, email, password }: CreateUserDto) {
-    const findByEmail = await this.findByEmail(email);
+  public async create({ name, email, password }: CreateUserDto) {
+    const findByEmail = await this.userRepository.findUserByEmail(email);
 
     if (findByEmail) {
       throw new HttpException('Email already exists', 400);
@@ -28,18 +32,21 @@ export class UsersService {
     return user;
   }
 
-  async findByEmail(email: string) {
-    const user = await this.userRepository.findByEmail(email);
+  public async validateUserSignIn(email: string, password: string) {
+    const user = await this.userRepository.findUserByEmail(email);
 
-    return user;
-  }
-
-  async findOne(id: string) {
-    const user = await this.userRepository.findById(id);
     if (!user) {
-      throw new HttpException('User', 401);
+      throw new UnauthorizedException();
     }
-    delete user.password;
+
+    const validadePassword = await this.bcriptService.validatePassword(
+      password,
+      user.password,
+    );
+
+    if (!validadePassword) {
+      throw new UnauthorizedException();
+    }
 
     return user;
   }
