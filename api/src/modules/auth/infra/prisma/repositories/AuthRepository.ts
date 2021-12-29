@@ -37,4 +37,12 @@ export class AuthRepository implements IAuthRepositoryContract {
       },
     });
   }
+
+  public async findById(id: string): Promise<User> {
+    return await this.prismaService.user.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
 }
