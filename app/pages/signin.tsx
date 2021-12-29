@@ -1,14 +1,14 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import { Button, Checkbox, Form, Input, Col, Row, Card } from "antd";
+import { Button, Checkbox, Form, Input, Col, Row, Card, Modal } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import Link from 'next/link';
 
 export default function SignIn() {
-  const onFinish = () => {};
-  const onFinishFailed = () => {};
+  const onFinish = (data: any) => {
+    console.log(data);
+  };
+  const onFinishFailed = () => {
+    console.log('fail');
+  };
   return (
     <div
       style={{

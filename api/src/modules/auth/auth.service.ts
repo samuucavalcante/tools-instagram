@@ -74,4 +74,8 @@ export class AuthService {
 
     return user;
   }
+
+  async findUserById(id: string): Promise<User> {
+    return await this.authRepository.findById(id);
+  }
 }

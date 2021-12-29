@@ -1,14 +1,20 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
 import { Button, Checkbox, Form, Input, Col, Row, Card } from "antd";
 import { UserOutlined, LockOutlined, MailOutlined} from "@ant-design/icons";
 import Link from 'next/link';
 
+type SignInData = {
+  username: string;
+  email: string;
+  password: string;
+}
+
 export default function SignUp() {
-  const onFinish = () => {};
-  const onFinishFailed = () => {};
+  const onFinish = ({ email, username, password }: SignInData) => {
+
+  };
+  const onFinishFailed = () => {
+    console.log('fail');
+  };
   return (
     <div
       style={{
@@ -53,7 +59,7 @@ export default function SignUp() {
                   placeholder="Email"
                 />
               </Form.Item>
-              
+
               <Form.Item
                 name="password"
                 rules={[

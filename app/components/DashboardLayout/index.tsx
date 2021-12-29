@@ -6,14 +6,14 @@ import { useRouter } from 'next/router';
 import React, { useState, useMemo, useCallback } from 'react';
 
 type DashboardLayoutTypes =  {
-  id: "1" | "2";
+  id: string;
   title: "Settings" | "Home"
   children: React.ReactNode
 }
 
 export function DashboardLayout({ id, title: Title, children }:DashboardLayoutTypes) {
-  const [key] = useState<Pick<DashboardLayoutTypes, "id">>(id)
-  const [title] = useState<Pick<DashboardLayoutTypes, "title">>(Title)
+  const [key] = useState<string>(id)
+  const [title] = useState<"Settings"| "Home">(Title)
 
   const { Header, Content, Sider, Footer } = Layout;
   const { push } = useRouter();
