@@ -51,7 +51,6 @@ export class UserRepositoryService implements IUserRepository {
         password: true,
         createdAt: true,
         updatedAt: true,
-        _count: true,
         instagramAccounts: {
           select: {
             id: true,
@@ -72,7 +71,6 @@ export class UserRepositoryService implements IUserRepository {
         },
       },
     });
-
     return user;
   }
 }
