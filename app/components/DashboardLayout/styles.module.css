@@ -5,6 +5,7 @@
   overflow: auto;
   height: 100vh;
   left: 0;
+  position: fixed;
 }
 
 .siderMenuText{
@@ -12,5 +13,6 @@
 }
 
 .content {
-  padding: 20px;
+  position: relative;
+  padding: 20px 0px;
 }
