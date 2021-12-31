@@ -24,7 +24,6 @@ export function DashboardLayout({ id, title: Title, children }:DashboardLayoutTy
   }),[])
 
   return (
-    <Layout hasSider>
     <Layout hasSider style={{ overflow: 'hidden' }}>
       <Sider className={styles.sider} >
         <Menu theme="dark" defaultSelectedKeys={[key]} mode="inline">
@@ -36,7 +35,6 @@ export function DashboardLayout({ id, title: Title, children }:DashboardLayoutTy
           </Menu.Item>
           </Menu>
        </Sider>
-       <Layout>
        <Layout style={{ position: 'relative', left: 220}}>
          <Header className={styles.header} >
          <Typography.Title level={2}>{title}</Typography.Title>
