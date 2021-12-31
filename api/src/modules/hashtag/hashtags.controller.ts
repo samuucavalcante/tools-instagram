@@ -25,24 +25,4 @@ export class HashtagsController {
       createHashtagDto,
     );
   }
-
-  @Get()
-  findAll() {
-    return this.hashtagsService.findAll();
-  }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.hashtagsService.findOne(+id);
-  // }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateHashtagDto: UpdateHashtagDto) {
-    return this.hashtagsService.update(+id, updateHashtagDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.hashtagsService.remove(+id);
-  }
 }
