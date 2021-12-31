@@ -11,13 +11,14 @@ import {
   Tag,
   Button,
   Modal,
+  message,
 } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
 import { AxiosResponse } from "axios";
 import { api } from "../../services/api";
-import { InstagramAccounts, useAuth } from "../../hooks/AuthContext";
+import { InstagramAccounts, useAuth, Hashtag } from "../../hooks/AuthContext";
 import { useEffect, useState } from "react";
 
 type RegisterInstagramAccount = {
@@ -28,12 +29,19 @@ type RegisterInstagramAccount = {
 export default function Settings() {
   const { user, refreshUser } = useAuth();
   const [form] = Form.useForm();
-  const [instagramAccounts, setInstagramAccounts] = useState<InstagramAccounts[]>(user.instagramAccounts);
-  console.log(instagramAccounts);
+  const [inputHashtag, setInputHashtag] = useState<string>();
+
+
   const onFinishFailed = () => {};
+
   const onFinish = async ({ username, password }: RegisterInstagramAccount) => {
     form.resetFields();
-    const { data } = await api.post<
+    if (user._count.instagramAccounts === 3) {
+      message.error("You can only have 3 accounts");
+      return;
+    }
+
+    await api.post<
       InstagramAccounts,
       AxiosResponse<InstagramAccounts>,
       RegisterInstagramAccount
@@ -42,20 +50,30 @@ export default function Settings() {
       password,
     });
 
-    setInstagramAccounts([...instagramAccounts || [], data]);
     await refreshUser();
+
+    message.success("Account added");
   };
 
-  const addHashtags = () => {
+  const addHashtags = (id: string) => {
     Modal.info({
       title: "Type the hashtag",
       content: (
         <div>
-          <p style={{ color: "gray" }}>no need to put #</p>
-          <Input placeholder="example" />
+          <input type="text" onChange={(e) => setInputHashtag(e.target.value)} placeholder="example" />
         </div>
       ),
-      onOk: () => {},
+      onOk: async () => {
+        if(inputHashtag?.length === 0) return;
+        await api.post<Hashtag, AxiosResponse<Hashtag>, Pick<Hashtag, "hashtag">>(
+          `hashtags/${id}`,
+          {
+            hashtag: inputHashtag|| "",
+          }
+        );
+        message.success("Hashtag added");
+        await refreshUser();
+      },
       cancelText: "Cancel",
       onCancel: () => {},
       okCancel: true,
@@ -84,7 +102,9 @@ export default function Settings() {
               <Form.Item
                 label="Username"
                 name="username"
-                rules={[{ required: true, message: 'Please input your username!' }]}
+                rules={[
+                  { required: true, message: "Please input your username!" },
+                ]}
               >
                 <Input />
               </Form.Item>
@@ -92,53 +112,81 @@ export default function Settings() {
               <Form.Item
                 label="Password"
                 name="password"
-                rules={[{ required: true, message: 'Please input your password!' }]}
+                rules={[
+                  { required: true, message: "Please input your password!" },
+                ]}
               >
                 <Input.Password />
               </Form.Item>
+              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>
+              </Form.Item>
             </Form>
           </Col>
-
         </Space>
         <Divider />
-        <Row>
-          <Col>
-            <Typography.Title level={2}>Accounts</Typography.Title>
-            <Space style={{ display: 'flex', justifyContent: 'space-evenly', alignItems: 'center', flexWrap: 'wrap' }} >
-              <Card bordered title={<>samuucavalcante <Tag color="green" >Active</Tag></>}>
-                <Space style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                </Space>
+        <Row style={{ display: "flex", width: "84%" }}>
+          {user.instagramAccounts?.map((instagram) => (
+            <Col
+              xs={24}
+              sm={24}
+              md={12}
+              lg={8}
+              key={instagram.id}
+              style={{ padding: 5 }}
+            >
+              <Card
+                bordered
+                title={
+                  <>
+                    {instagram.username} {instagram.active ?<Tag color="green">Active</Tag> : <Tag color="red">Inactive</Tag>}
+                  </>
+                }
+              >
+                <Space
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                ></Space>
                 <Typography.Text>Hashtags:</Typography.Text>
                 <div style={{ marginTop: 10 }}>
-                  <Tag closable >Amor</Tag>
-                  <Tag closable >Amor</Tag>
-                  <Tag closable >Amor</Tag>
-                  <Button onClick={() => addHashtags()} shape="round" icon={<PlusCircleOutlined />}></Button>
+                  {instagram.Hashtag.map((hashtag) => (
+                    <Tag closable key={hashtag.id} color="blue">
+                      {hashtag.hashtag}
+                    </Tag>
+                  ))}
+                  <Button
+                    onClick={() => addHashtags(instagram.id)}
+                    shape="round"
+                    icon={<PlusCircleOutlined />}
+                  ></Button>
                 </div>
               </Card>
-            </Space>
-          </Col>
+            </Col>
+          ))}
         </Row>
-
-
       </Row>
     </DashboardLayout>
   );
 }
 
-export const getServerSideProps: GetServerSideProps =  async (ctx) => {
-  const { ['instagram-tools:token']: token } = parseCookies(ctx);
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ["instagram-tools:token"]: token } = parseCookies(ctx);
 
-  if(!token) {
-    return  {
+  if (!token) {
+    return {
       redirect: {
-        destination: '/signin',
-        permanent: false
-      }
-    }
+        destination: "/signin",
+        permanent: false,
+      },
+    };
   }
 
   return {
-    props: {}
-  }
-}
+    props: {},
+  };
+};
