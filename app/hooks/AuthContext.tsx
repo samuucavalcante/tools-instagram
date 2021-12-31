@@ -23,7 +23,7 @@ type SignResponse = {
   access_token: string;
 };
 
-type Hashtag = {
+export type Hashtag = {
   id: string;
   hashtag: string;
   createdAt: string;
