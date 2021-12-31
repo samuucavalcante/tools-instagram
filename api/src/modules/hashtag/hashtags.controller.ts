@@ -1,15 +1,6 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Delete,
-  Param,
-} from '@nestjs/common';
+import { Controller, Post, Body, Param } from '@nestjs/common';
 import { HashtagsService } from './hashtags.service';
 import { CreateHashtagDto } from './dto/create-hashtag.dto';
-import { UpdateHashtagDto } from './dto/update-hashtag.dto';
 
 @Controller('hashtags')
 export class HashtagsController {
