@@ -1,31 +1,66 @@
-import { DashboardLayout } from '../../components/DashboardLayout';
-import { Typography, Space, Form, Input, Row, Col, Divider, Card, Tag, Button, Modal } from 'antd';
+import { DashboardLayout } from "../../components/DashboardLayout";
+import {
+  Typography,
+  Space,
+  Form,
+  Input,
+  Row,
+  Col,
+  Divider,
+  Card,
+  Tag,
+  Button,
+  Modal,
+} from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { GetServerSideProps } from 'next';
-import { parseCookies } from 'nookies';
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
+import { AxiosResponse } from "axios";
+import { api } from "../../services/api";
+import { InstagramAccounts, useAuth } from "../../hooks/AuthContext";
+import { useEffect, useState } from "react";
+
+type RegisterInstagramAccount = {
+  username: string;
+  password: string;
+};
 
 export default function Settings() {
-  const onFinishFailed = () => { }
-  const onFinish = () => { }
+  const { user, refreshUser } = useAuth();
+  const [form] = Form.useForm();
+  const [instagramAccounts, setInstagramAccounts] = useState<InstagramAccounts[]>(user.instagramAccounts);
+  console.log(instagramAccounts);
+  const onFinishFailed = () => {};
+  const onFinish = async ({ username, password }: RegisterInstagramAccount) => {
+    form.resetFields();
+    const { data } = await api.post<
+      InstagramAccounts,
+      AxiosResponse<InstagramAccounts>,
+      RegisterInstagramAccount
+    >("instagramaccount", {
+      username,
+      password,
+    });
+
+    setInstagramAccounts([...instagramAccounts || [], data]);
+    await refreshUser();
+  };
 
   const addHashtags = () => {
     Modal.info({
-      title: 'Type the hashtag',
+      title: "Type the hashtag",
       content: (
         <div>
-          <p style={{ color: 'gray' }}>no need to put #</p>
+          <p style={{ color: "gray" }}>no need to put #</p>
           <Input placeholder="example" />
         </div>
       ),
-      onOk: () => {
-      },
-      cancelText: 'Cancel',
-      onCancel: () => {
-      },
-      okCancel: true
-
+      onOk: () => {},
+      cancelText: "Cancel",
+      onCancel: () => {},
+      okCancel: true,
     });
-  }
+  };
 
   return (
     <DashboardLayout id="2" title="Settings">
@@ -33,8 +68,11 @@ export default function Settings() {
         <Space direction="horizontal">
           {/** Register instagram account **/}
           <Col>
-            <Typography.Title level={3}>Register instagram account</Typography.Title>
+            <Typography.Title level={3}>
+              Register instagram account
+            </Typography.Title>
             <Form
+              form={form}
               name="basic"
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 16 }}
