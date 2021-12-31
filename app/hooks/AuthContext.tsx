@@ -5,10 +5,11 @@ import { setCookie, parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 
 
-type AuthContextTypes = {
+export type AuthContextTypes = {
   isAuthenticated: boolean;
   signIn(signRequest: SignRequest): Promise<void>;
-  user: User | null;
+  user: User;
+  refreshUser(): Promise<void>;
 };
 
 export type SignRequest = {
@@ -22,7 +23,7 @@ type SignResponse = {
   access_token: string;
 };
 
-type InstagramAccounts = {
+export type InstagramAccounts = {
   id: string;
   username: string;
   password: string;
@@ -41,7 +42,7 @@ export type  User =  {
 const AuthContext = createContext({} as AuthContextTypes);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User>({}as User)
   const isAuthenticated = !!user;
   const router = useRouter();
 
@@ -50,7 +51,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     if(token) {
       api.get('token').then(response => {
-        console.log(response.data);
         setUser(response.data)
       }).catch(err => alert('deu erro'))
     }
@@ -83,21 +83,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     router.push('/dashboard')
   }
 
+  const refreshUser = async () => {
+    const { 'instagram-tools:token': token } = parseCookies()
+
+    if(token) {
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+      const { data } = await api.get<User>(`users/${user.id}`);
+
+      setUser(data)
+    }
+  }
+
+
   return (
-    <AuthContext.Provider value={{ isAuthenticated, signIn, user }}>
+    <AuthContext.Provider value={{ isAuthenticated, signIn, user, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
 export const useAuth = () => {
-  const { isAuthenticated,signIn, user } = useContext(AuthContext);
+  const { isAuthenticated,signIn, user, refreshUser } = useContext(AuthContext);
 
 
   return {
     isAuthenticated,
     signIn,
-    user
+    user,
+    refreshUser
   }
 
 }
