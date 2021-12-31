@@ -50,4 +50,8 @@ export class UsersService {
 
     return user;
   }
+
+  public async getUser(id: string) {
+    return await this.userRepository.findUserById(id);
+  }
 }
