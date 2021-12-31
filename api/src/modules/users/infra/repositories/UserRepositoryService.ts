@@ -25,6 +25,7 @@ export class UserRepositoryService implements IUserRepository {
         email,
       },
       include: {
+        _count: true,
         instagramAccounts: {
           include: {
             _count: true,
@@ -39,6 +40,15 @@ export class UserRepositoryService implements IUserRepository {
     const user = await this.prismaService.user.findUnique({
       where: {
         id,
+      },
+      include: {
+        _count: true,
+        instagramAccounts: {
+          include: {
+            _count: true,
+            Hashtag: true,
+          },
+        },
       },
     });
     return user;
