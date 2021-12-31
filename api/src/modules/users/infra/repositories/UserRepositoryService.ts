@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/providers/prisma.service';
 import { CreateUserDto } from '../../dto/create-user.dto';
-import { User } from '@prisma/client';
+import { User, Hashtag } from '@prisma/client';
 import { IUserRepository } from '../../repositories/IUserRepository';
 
 @Injectable()
@@ -15,14 +15,6 @@ export class UserRepositoryService implements IUserRepository {
         email,
         name: name,
       },
-      select: {
-        password: true,
-        id: true,
-        name: true,
-        email: true,
-        createdAt: true,
-        updatedAt: true,
-      },
     });
 
     return user;
@@ -34,20 +26,8 @@ export class UserRepositoryService implements IUserRepository {
       },
       include: {
         instagramAccounts: {
-          select: {
-            id: true,
-            username: true,
-            password: true,
-            active: true,
-            Hashtag: {
-              select: {
-                id: true,
-                hashtag: true,
-
-                createdAt: true,
-                updatedAt: true,
-              },
-            },
+          include: {
+            Hashtag: true,
           },
         },
       },
@@ -58,31 +38,6 @@ export class UserRepositoryService implements IUserRepository {
     const user = await this.prismaService.user.findUnique({
       where: {
         id,
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        password: true,
-        createdAt: true,
-        updatedAt: true,
-        instagramAccounts: {
-          select: {
-            id: true,
-            username: true,
-            password: true,
-            active: true,
-            Hashtag: {
-              select: {
-                id: true,
-                hashtag: true,
-
-                createdAt: true,
-                updatedAt: true,
-              },
-            },
-          },
-        },
       },
     });
     return user;
