@@ -10,12 +10,13 @@ export class InstagramaccountService {
     private readonly userRepositoryService: UserRepositoryService,
   ) {}
   async create(id: string, { username, password }: CreateInstagramAccountDto) {
-    const user = await this.instagramAccountRepositoryService.create(id, {
-      username,
-      password,
-    });
+    const instagramAccount =
+      await this.instagramAccountRepositoryService.create(id, {
+        username,
+        password,
+      });
 
-    return user;
+    return instagramAccount;
   }
 
   async findInstagramAccount(id: string) {

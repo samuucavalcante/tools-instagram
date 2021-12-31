@@ -7,14 +7,14 @@ class InstagramAccountRepositoryService implements IInstagramAccountRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(id: string, { username, password }: CreateInstagramAccountDto) {
-    const user = await this.prismaService.intagramAccount.create({
+    const InstagramAccount = await this.prismaService.intagramAccount.create({
       data: {
         username,
         password,
         userId: id,
       },
     });
-    return user;
+    return InstagramAccount;
   }
 }
 
