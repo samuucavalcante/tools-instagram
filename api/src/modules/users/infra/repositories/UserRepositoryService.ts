@@ -27,6 +27,7 @@ export class UserRepositoryService implements IUserRepository {
       include: {
         instagramAccounts: {
           include: {
+            _count: true,
             Hashtag: true,
           },
         },
