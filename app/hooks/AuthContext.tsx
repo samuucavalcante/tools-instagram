@@ -23,12 +23,23 @@ type SignResponse = {
   access_token: string;
 };
 
+type Hashtag = {
+  id: string;
+  hashtag: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export type InstagramAccounts = {
   id: string;
   username: string;
   password: string;
   active: boolean;
-  Hashtag: string[]
+  maxAccount: boolean;
+  Hashtag: Hashtag[];
+  _count: {
+    Hashtag: number;
+  }
 }
 
 export type  User =  {
@@ -38,6 +49,9 @@ export type  User =  {
   createdAt: string;
   updatedAt: string;
   instagramAccounts: InstagramAccounts[]
+  _count: {
+    instagramAccounts: number;
+  }
 }
 const AuthContext = createContext({} as AuthContextTypes);
 
@@ -50,7 +64,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { 'instagram-tools:token': token } = parseCookies()
 
     if(token) {
-      api.get('token').then(response => {
+      api.get<User>('token').then(response => {
+        console.log(response.data);
         setUser(response.data)
       }).catch(err => alert('deu erro'))
     }
