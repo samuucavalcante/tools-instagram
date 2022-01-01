@@ -1,6 +1,6 @@
 import { IsString, Min } from 'class-validator';
 
-export class CreateInstagramAccountDto {
+export class CreateOrUpdateInstagramAccountDto {
   @IsString()
   readonly username: string;
   @IsString()
