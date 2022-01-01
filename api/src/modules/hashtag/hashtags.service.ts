@@ -29,9 +29,6 @@ export class HashtagsService {
 
     return hashtagCreated;
   }
-  findAll() {
-    return `This action returns all hashtags`;
-  }
 
   findOne(hashtag: string) {
     const findHashtag = this.prismaService.hashtag.findUnique({
@@ -43,16 +40,9 @@ export class HashtagsService {
     return findHashtag;
   }
 
-  update(id: number, updateHashtagDto: UpdateHashtagDto) {
-    return `This action updates a #${id} hashtag`;
-  }
+  remove(id: string) {
+    const hashtag = this.hashtagRespositoryService.delete(id);
 
-  // public async updateHashtagAlreadExists(
-  //   instagramAccountId,
-  //   { hashtag }: CreateHashtagDto,
-  // ) {}
-
-  remove(id: number) {
-    return `This action removes a #${id} hashtag`;
+    return hashtag;
   }
 }

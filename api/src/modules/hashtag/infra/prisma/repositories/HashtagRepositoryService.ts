@@ -24,6 +24,7 @@ export class HashtagRepositoryService implements IHashtagsRepository {
 
     return hashtagCreated;
   }
+
   public async UpdateHashtagThatAlreadyExists(
     instagramAccountId: string,
     hashtag: string,
@@ -50,5 +51,15 @@ export class HashtagRepositoryService implements IHashtagsRepository {
         hashtag,
       },
     });
+  }
+
+  public async delete(id: string): Promise<Hashtag> {
+    const hashtag = await this.prismaService.hashtag.delete({
+      where: {
+        id,
+      },
+    });
+
+    return hashtag;
   }
 }

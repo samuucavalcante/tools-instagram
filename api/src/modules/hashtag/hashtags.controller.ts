@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Param } from '@nestjs/common';
+import { Controller, Post, Body, Param, Delete } from '@nestjs/common';
 import { HashtagsService } from './hashtags.service';
 import { CreateHashtagDto } from './dto/create-hashtag.dto';
 
@@ -15,5 +15,10 @@ export class HashtagsController {
       instagramAccountId,
       createHashtagDto,
     );
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return await this.hashtagsService.remove(id);
   }
 }
