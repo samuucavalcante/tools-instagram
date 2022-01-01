@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateInstagramAccountDto } from './dto/create-instagramaccount.dto';
+import { CreateOrUpdateInstagramAccountDto } from './dto/create-instagramaccount.dto';
 import { InstagramAccountRepositoryService } from './infra/repositories/InstagramAccountRepositoryService';
 import { UserRepositoryService } from '../users/infra/repositories/UserRepositoryService';
 
@@ -9,7 +9,10 @@ export class InstagramaccountService {
     private readonly instagramAccountRepositoryService: InstagramAccountRepositoryService,
     private readonly userRepositoryService: UserRepositoryService,
   ) {}
-  async create(id: string, { username, password }: CreateInstagramAccountDto) {
+  async create(
+    id: string,
+    { username, password }: CreateOrUpdateInstagramAccountDto,
+  ) {
     const instagramAccount =
       await this.instagramAccountRepositoryService.create(id, {
         username,
@@ -24,5 +27,17 @@ export class InstagramaccountService {
       await this.userRepositoryService.findUserById(id);
 
     return userWithIntagramAccountsAndHashtags;
+  }
+
+  async update(
+    instagramAccountId: string,
+    dto: CreateOrUpdateInstagramAccountDto,
+  ) {
+    const instagramAccount = this.instagramAccountRepositoryService.update(
+      instagramAccountId,
+      dto,
+    );
+
+    return instagramAccount;
   }
 }
