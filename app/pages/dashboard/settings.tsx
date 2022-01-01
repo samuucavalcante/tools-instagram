@@ -31,7 +31,7 @@ export default function Settings() {
   const [form] = Form.useForm();
   const [inputHashtag, setInputHashtag] = useState<string>();
 
-
+  
   const onFinishFailed = () => {};
 
   const onFinish = async ({ username, password }: RegisterInstagramAccount) => {
@@ -60,17 +60,22 @@ export default function Settings() {
       title: "Type the hashtag",
       content: (
         <div>
-          <input type="text" onChange={(e) => setInputHashtag(e.target.value)} placeholder="example" />
+          <input
+            type="text"
+            onChange={(e) => setInputHashtag(e.target.value)}
+            placeholder="example"
+          />
         </div>
       ),
       onOk: async () => {
-        if(inputHashtag?.length === 0) return;
-        await api.post<Hashtag, AxiosResponse<Hashtag>, Pick<Hashtag, "hashtag">>(
-          `hashtags/${id}`,
-          {
-            hashtag: inputHashtag|| "",
-          }
-        );
+        if (inputHashtag?.length === 0) return;
+        await api.post<
+          Hashtag,
+          AxiosResponse<Hashtag>,
+          Pick<Hashtag, "hashtag">
+        >(`hashtags/${id}`, {
+          hashtag: inputHashtag || "",
+        });
         message.success("Hashtag added");
         await refreshUser();
       },
@@ -141,7 +146,12 @@ export default function Settings() {
                 bordered
                 title={
                   <>
-                    {instagram.username} {instagram.active ?<Tag color="green">Active</Tag> : <Tag color="red">Inactive</Tag>}
+                    {instagram.username}
+                    {instagram.active ? (
+                      <Tag color="green">Active</Tag>
+                    ) : (
+                      <Tag color="red">Inactive</Tag>
+                    )}
                   </>
                 }
               >
