@@ -27,21 +27,27 @@ type RegisterInstagramAccount = {
 };
 
 export default function Settings() {
-  const { user, refreshUser } = useAuth();
+  // const { user, refreshUser } = useAuth();
   const [form] = Form.useForm();
   const [inputHashtag, setInputHashtag] = useState<string>();
+  const [instagramAccounts, setInstagramAccounts] = useState<InstagramAccounts[]>();
 
-  
+  useEffect(() => {
+    api.get<InstagramAccounts[], AxiosResponse<InstagramAccounts[]>>('instagramaccount').then((res) => {
+      setInstagramAccounts(res.data);
+    });
+  },[instagramAccounts]);
+
   const onFinishFailed = () => {};
 
   const onFinish = async ({ username, password }: RegisterInstagramAccount) => {
     form.resetFields();
-    if (user._count.instagramAccounts === 3) {
+    if (instagramAccounts?.length === 3) {
       message.error("You can only have 3 accounts");
       return;
     }
 
-    await api.post<
+    const instagramAccount = await api.post<
       InstagramAccounts,
       AxiosResponse<InstagramAccounts>,
       RegisterInstagramAccount
@@ -50,9 +56,13 @@ export default function Settings() {
       password,
     });
 
-    await refreshUser();
+    if(instagramAccount.status === 200  && instagramAccount.data) {
+      setInstagramAccounts([...instagramAccounts || [], instagramAccount.data]);
+      message.success("Account added");
+      return;
+    }
 
-    message.success("Account added");
+    message.error("Something went wrong");
   };
 
   const addHashtags = (id: string) => {
@@ -77,7 +87,6 @@ export default function Settings() {
           hashtag: inputHashtag || "",
         });
         message.success("Hashtag added");
-        await refreshUser();
       },
       cancelText: "Cancel",
       onCancel: () => {},
@@ -133,7 +142,7 @@ export default function Settings() {
         </Space>
         <Divider />
         <Row style={{ display: "flex", width: "84%" }}>
-          {user.instagramAccounts?.map((instagram) => (
+          {instagramAccounts?.map((instagram) => (
             <Col
               xs={24}
               sm={24}
