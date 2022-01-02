@@ -40,4 +40,13 @@ export class InstagramaccountService {
 
     return instagramAccount;
   }
+
+  async getInstagramAccountsByUser(id: string) {
+    const instagramAccounts =
+      await this.instagramAccountRepositoryService.getInstagramAccountsByUser(
+        id,
+      );
+
+    return instagramAccounts;
+  }
 }

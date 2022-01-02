@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { PrismaService } from 'src/providers/prisma.service';
 import { CreateUserDto } from '../../dto/create-user.dto';
-import { User, Hashtag } from '@prisma/client';
 import { IUserRepository } from '../../repositories/IUserRepository';
 
 @Injectable()
@@ -24,15 +24,6 @@ export class UserRepositoryService implements IUserRepository {
       where: {
         email,
       },
-      include: {
-        _count: true,
-        instagramAccounts: {
-          include: {
-            _count: true,
-            Hashtag: true,
-          },
-        },
-      },
     });
   }
 
@@ -40,15 +31,6 @@ export class UserRepositoryService implements IUserRepository {
     const user = await this.prismaService.user.findUnique({
       where: {
         id,
-      },
-      include: {
-        _count: true,
-        instagramAccounts: {
-          include: {
-            _count: true,
-            Hashtag: true,
-          },
-        },
       },
     });
     return user;

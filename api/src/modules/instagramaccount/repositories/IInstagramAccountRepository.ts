@@ -9,4 +9,6 @@ export interface IInstagramAccountRepository {
     id: string,
     dto: CreateOrUpdateInstagramAccountDto,
   ): Promise<IntagramAccount>;
+
+  getInstagramAccountsByUser(id: string): Promise<IntagramAccount[]>;
 }

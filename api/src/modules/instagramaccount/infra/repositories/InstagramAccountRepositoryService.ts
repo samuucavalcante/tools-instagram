@@ -37,6 +37,23 @@ class InstagramAccountRepositoryService implements IInstagramAccountRepository {
 
     return user;
   }
+
+  public async getInstagramAccountsByUser(
+    id: string,
+  ): Promise<IntagramAccount[]> {
+    const instagramAccounts = await this.prismaService.intagramAccount.findMany(
+      {
+        where: {
+          userId: id,
+        },
+        include: {
+          Hashtag: true,
+        },
+      },
+    );
+
+    return instagramAccounts;
+  }
 }
 
 export { InstagramAccountRepositoryService };

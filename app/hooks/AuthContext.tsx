@@ -48,10 +48,6 @@ export type  User =  {
   email: string;
   createdAt: string;
   updatedAt: string;
-  instagramAccounts: InstagramAccounts[]
-  _count: {
-    instagramAccounts: number;
-  }
 }
 const AuthContext = createContext({} as AuthContextTypes);
 
