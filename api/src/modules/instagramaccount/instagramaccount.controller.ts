@@ -6,6 +6,8 @@ import {
   Request,
   Patch,
   Param,
+  Get,
+  Req,
 } from '@nestjs/common';
 import { InstagramaccountService } from './instagramaccount.service';
 import { CreateOrUpdateInstagramAccountDto } from './dto/create-instagramaccount.dto';
@@ -21,6 +23,15 @@ export class InstagramaccountController {
   async create(@Body() dto: CreateOrUpdateInstagramAccountDto, @Request() req) {
     const userId = req.user.userId;
     return await this.instagramaccountService.create(userId, dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async getInstagramAccountsByUser(@Req() req) {
+    const userId = req.user.userId;
+    return await this.instagramaccountService.getInstagramAccountsByUser(
+      userId,
+    );
   }
 
   @UseGuards(JwtAuthGuard)
