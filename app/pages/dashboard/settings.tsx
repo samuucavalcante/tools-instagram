@@ -174,7 +174,7 @@ export default function Settings() {
                 ></Space>
                 <Typography.Text>Hashtags:</Typography.Text>
                 <div style={{ marginTop: 10 }}>
-                  {instagram.Hashtag.map((hashtag) => (
+                  {instagram.Hashtag?.map((hashtag) => (
                     <Tag closable key={hashtag.id} color="blue">
                       {hashtag.hashtag}
                     </Tag>
