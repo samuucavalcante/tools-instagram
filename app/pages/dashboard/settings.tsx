@@ -193,19 +193,18 @@ export default function Settings() {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ["instagram-tools:token"]: token } = parseCookies(ctx);
+export const getServerSideProps: GetServerSideProps =  async (ctx) => {
+  const { ['instagram-tools:token']: token } = parseCookies(ctx);
 
-  if (!token) {
-    return {
+  if(!token) {
+    return  {
       redirect: {
-        destination: "/signin",
-        permanent: false,
-      },
-    };
+        destination: '/signin',
+        permanent: false
   }
-
+    }
+  }
   return {
-    props: {},
-  };
-};
+    props: {}
+  }
+}
