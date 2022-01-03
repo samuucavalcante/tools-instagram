@@ -35,8 +35,8 @@ export default function Settings() {
   useEffect(() => {
     api.get<InstagramAccounts[], AxiosResponse<InstagramAccounts[]>>('instagramaccount').then((res) => {
       setInstagramAccounts(res.data);
-    });
-  },[instagramAccounts]);
+    })
+  },[]);
 
   const onFinishFailed = () => {};
 
