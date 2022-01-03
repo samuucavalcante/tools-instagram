@@ -27,7 +27,6 @@ type RegisterInstagramAccount = {
 };
 
 export default function Settings() {
-  // const { user, refreshUser } = useAuth();
   const [form] = Form.useForm();
   const [inputHashtag, setInputHashtag] = useState<string>();
   const [instagramAccounts, setInstagramAccounts] = useState<InstagramAccounts[]>();
