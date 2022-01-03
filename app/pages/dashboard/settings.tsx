@@ -55,7 +55,6 @@ export default function Settings() {
       password,
     });
 
-    if(instagramAccount.status === 200  && instagramAccount.data) {
     if(instagramAccount.status === 201  && instagramAccount.data) {
       setInstagramAccounts([...instagramAccounts as InstagramAccounts[], instagramAccount.data]);
       message.success("Account added");
