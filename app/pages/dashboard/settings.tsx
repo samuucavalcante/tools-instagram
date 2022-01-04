@@ -91,7 +91,18 @@ export default function Settings() {
       onCancel: () => {},
       okCancel: true,
     });
-  };
+  const removeHashtag = useCallback((id: string, hashtag: string) => {
+    Modal.confirm({
+      title: "Remove Hashtag",
+      content: `Are you sure you want to remove ${hashtag}?`,
+      onOk: async () => {
+        await api.delete(`hashtags/${id}`);
+        setRefreshInstagraAccountState(state => !state);
+
+        message.success("Hashtag removed");
+      },
+    });
+  },[])
 
   return (
     <DashboardLayout id="2" title="Settings">
@@ -173,7 +184,7 @@ export default function Settings() {
                 <Typography.Text>Hashtags:</Typography.Text>
                 <div style={{ marginTop: 10 }}>
                   {instagram.Hashtag?.map((hashtag) => (
-                    <Tag closable key={hashtag.id} color="blue">
+                    <Tag closable onClose={() => removeHashtag(hashtag.id, hashtag.hashtag)} key={hashtag.id} color="blue">
                       {hashtag.hashtag}
                     </Tag>
                   ))}
