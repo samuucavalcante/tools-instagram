@@ -19,7 +19,12 @@ import { parseCookies } from "nookies";
 import { AxiosResponse } from "axios";
 import { api } from "../../services/api";
 import { InstagramAccounts, useAuth, Hashtag } from "../../hooks/AuthContext";
-import { useEffect, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 type RegisterInstagramAccount = {
   username: string;
@@ -28,14 +33,19 @@ type RegisterInstagramAccount = {
 
 export default function Settings() {
   const [form] = Form.useForm();
-  const [inputHashtag, setInputHashtag] = useState<string>();
+  const inputHashtagRef = useRef<HTMLInputElement>(null);
   const [instagramAccounts, setInstagramAccounts] = useState<InstagramAccounts[]>();
+  const [refreshInstagraAccountState, setRefreshInstagraAccountState] = useState<boolean>(false);
 
   useEffect(() => {
-    api.get<InstagramAccounts[], AxiosResponse<InstagramAccounts[]>>('instagramaccount').then((res) => {
-      setInstagramAccounts(res.data);
-    })
-  },[]);
+    api
+      .get<InstagramAccounts[], AxiosResponse<InstagramAccounts[]>>(
+        "instagramaccount"
+      )
+      .then((res) => {
+        setInstagramAccounts(res.data);
+      });
+  }, [refreshInstagraAccountState]);
 
   const onFinishFailed = () => {};
 
@@ -55,8 +65,11 @@ export default function Settings() {
       password,
     });
 
-    if(instagramAccount.status === 201  && instagramAccount.data) {
-      setInstagramAccounts([...instagramAccounts as InstagramAccounts[], instagramAccount.data]);
+    if (instagramAccount.status === 201 && instagramAccount.data) {
+      setInstagramAccounts([
+        ...(instagramAccounts as InstagramAccounts[]),
+        instagramAccount.data,
+      ]);
       message.success("Account added");
       return;
     }
@@ -64,33 +77,25 @@ export default function Settings() {
     message.error("Something went wrong");
   };
 
-  const addHashtags = (id: string) => {
+  const addHashtags = useCallback((id: string) => {
+    console.log(inputHashtagRef.current?.value)
+    if(inputHashtagRef.current?.value) {
+      inputHashtagRef.current.value = "";
+    }
     Modal.info({
-      title: "Type the hashtag",
-      content: (
-        <div>
-          <input
-            type="text"
-            onChange={(e) => setInputHashtag(e.target.value)}
-            placeholder="example"
-          />
-        </div>
-      ),
+      title: "Add Hashtags",
+      content: <input ref={inputHashtagRef} />,
       onOk: async () => {
-        if (inputHashtag?.length === 0) return;
-        await api.post<
-          Hashtag,
-          AxiosResponse<Hashtag>,
-          Pick<Hashtag, "hashtag">
-        >(`hashtags/${id}`, {
-          hashtag: inputHashtag || "",
+        await api.post(`hashtags/${id}`, {
+          hashtag: inputHashtagRef.current?.value || "",
         });
-        message.success("Hashtag added");
+
+        setRefreshInstagraAccountState(state => !state);
+
       },
-      cancelText: "Cancel",
-      onCancel: () => {},
-      okCancel: true,
     });
+  }, []);
+
   const removeHashtag = useCallback((id: string, hashtag: string) => {
     Modal.confirm({
       title: "Remove Hashtag",
