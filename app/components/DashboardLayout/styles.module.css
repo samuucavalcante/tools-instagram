@@ -16,3 +16,12 @@
   position: relative;
   padding: 20px 0px;
 }
+
+.layoutMain {
+  overflow: hidden;
+}
+
+.layoutChild {
+  position: relative;
+  left: 220px;
+}
